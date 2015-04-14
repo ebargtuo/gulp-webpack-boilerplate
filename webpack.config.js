@@ -7,5 +7,10 @@ module.exports = {
         publicPath: "/assets/js/",
         path: __dirname + "/" + dirs.dist + "/assets/js/",
         filename: "[name].js"
+    },
+    devServer: {
+        contentBase: dirs.dist,
+        publicPath: "/assets/js/",
+        stats: {colors: true}
     }
 };
