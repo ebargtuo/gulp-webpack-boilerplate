@@ -13,5 +13,7 @@
     },
     "disallowSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true
-    }
+    },
+
+    "disallowMultipleVarDecl": "exceptUndefined"
 }
