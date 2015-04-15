@@ -7,7 +7,7 @@ describe("main", function() {
         var bodyEl = document.getElementsByTagName("body")[0];
         var mainFixture = "<h1></h1>";
         bodyEl.innerHTML = mainFixture;
-        require("../src/assets/js/main");
+        require("./../../src/assets/js/main");
     });
 
     it("should set the html element classname to js", function() {

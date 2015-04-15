@@ -6,7 +6,7 @@ var sinonChai = require("sinon-chai");
 var expect = chai.expect;
 chai.use(sinonChai);
 
-var pkg = require("./../package.json");
+var pkg = require("./../../package.json");
 var dirs = pkg.projectConfig.dirs;
 
 describe("main", function() {
@@ -26,7 +26,7 @@ describe("main", function() {
             getElementsByTagName: domStub
         };
 
-        require("../" + dirs.src + "/assets/js/main");
+        require("../../" + dirs.src + "/assets/js/main");
     });
 
     it("should set the html element classname to js", function() {

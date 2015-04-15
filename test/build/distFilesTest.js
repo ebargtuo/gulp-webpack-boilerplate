@@ -4,7 +4,7 @@ var assert = require("assert");
 var fs = require("fs");
 var path = require("path");
 
-var pkg = require("./../package.json");
+var pkg = require("./../../package.json");
 var dirs = pkg.projectConfig.dirs;
 
 var expectedFilesInDistDir = [

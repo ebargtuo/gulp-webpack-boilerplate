@@ -37,8 +37,18 @@ gulp.task("copy:normalize", function() {
                .pipe(gulp.dest(config.dirs.vendor + "/css"));
 });
 
-gulp.task("test", function() {
-    return gulp.src("test/**.js", {read: false})
+gulp.task("test", [
+    "test:unit"
+]);
+
+gulp.task("test:unit", function() {
+    return gulp.src("test/unit/**/*.js", {read: false})
+        // gulp-mocha needs filepaths so you can"t have any plugins before it
+        .pipe(mocha());
+});
+
+gulp.task("test:build", function() {
+    return gulp.src("test/build/**/*.js", {read: false})
         // gulp-mocha needs filepaths so you can"t have any plugins before it
         .pipe(mocha());
 });
@@ -90,9 +100,10 @@ gulp.task("connect", function() {
 gulp.task("build", function(done) {
     runSequence(
         "clean",
+        "test",
         "copy",
         "webpack",
-        "test",
+        "test:build",
     done);
 });
 
