@@ -7,6 +7,7 @@ var runSequence = require("run-sequence");
 var mocha = require("gulp-mocha");
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
+var karma = require("karma").server;
 
 var pkg = require("./package.json");
 var config = pkg.projectConfig;
@@ -38,13 +39,20 @@ gulp.task("copy:normalize", function() {
 });
 
 gulp.task("test", [
-    "test:unit"
+    "test:unit",
+    "test:integration"
 ]);
 
 gulp.task("test:unit", function() {
     return gulp.src("test/unit/**/*.js", {read: false})
         // gulp-mocha needs filepaths so you can"t have any plugins before it
         .pipe(mocha());
+});
+
+gulp.task("test:integration", function(done) {
+    karma.start({
+        configFile: __dirname + "/karma.conf.js"
+    }, done);
 });
 
 gulp.task("test:build", function() {
