@@ -13,6 +13,8 @@ var pkg = require("./package.json");
 var config = pkg.projectConfig;
 var webpackConfig = require("./webpack.config.js");
 
+var webpackDevServer;
+
 //
 // HELPER TASKS
 //
@@ -36,6 +38,16 @@ gulp.task("copy:src", function() {
 gulp.task("copy:normalize", function() {
     return gulp.src("node_modules/normalize.css/normalize.css")
                .pipe(gulp.dest(config.dirs.vendor + "/css"));
+});
+
+gulp.task("watch:src", function(done) {
+    gulp.watch(config.dirs.src + "/**.html", function(event) {
+        runSequence(
+            "copy:src",
+            "webpack-dev-server:reload"
+        );
+    });
+    done();
 });
 
 gulp.task("test", [
@@ -82,7 +94,8 @@ gulp.task("webpack-dev-server", function(callback) {
 
     var compiler = webpack(webpackConfig);
 
-    new WebpackDevServer(compiler, webpackConfig.devServer).listen(5000, "0.0.0.0", function(err) {
+    webpackDevServer = new WebpackDevServer(compiler, webpackConfig.devServer);
+    webpackDevServer.listen(5000, "0.0.0.0", function(err) {
         if (err) {
             throw new gutil.PluginError("webpack-dev-server", err);
         }
@@ -90,8 +103,15 @@ gulp.task("webpack-dev-server", function(callback) {
         gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
 
         // keep the server alive or continue?
-        // callback();
+        callback();
     });
+});
+
+gulp.task("webpack-dev-server:reload", function(done) {
+    if (webpackDevServer && webpackDevServer.io) {
+        webpackDevServer.io.sockets.emit("ok");
+    }
+    done();
 });
 
 gulp.task("connect", function() {
@@ -118,6 +138,7 @@ gulp.task("build", function(done) {
 gulp.task("default", function(done) {
     runSequence(
         "build",
+        "watch:src",
         "webpack-dev-server",
     done);
 });
