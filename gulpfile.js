@@ -67,6 +67,14 @@ gulp.task("test:integration", function(done) {
     }, done);
 });
 
+gulp.task("test:integration:watch", function(done) {
+    karma.start({
+        configFile: __dirname + "/karma.conf.js",
+        singleRun: false
+    });
+    done();
+});
+
 gulp.task("test:build", function() {
     return gulp.src("test/build/**/*.js", {read: false})
         // gulp-mocha needs filepaths so you can"t have any plugins before it
@@ -138,6 +146,7 @@ gulp.task("build", function(done) {
 gulp.task("default", function(done) {
     runSequence(
         "build",
+        "test:integration:watch",
         "watch:src",
         "webpack-dev-server",
     done);
