@@ -30,8 +30,6 @@
     "gulp-util": "~3.0.4",
     "webpack-dev-server": "~1.8.0",
     "chai": "~2.2.0",
-    "sinon": "~1.14.1",
-    "sinon-chai": "~2.7.0",
     "karma": "~0.12.31",
     "karma-webpack": "~1.5.0",
     "karma-cli": "0.0.4",
