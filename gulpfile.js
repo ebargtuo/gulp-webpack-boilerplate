@@ -61,6 +61,11 @@ gulp.task("test:unit", function() {
         .pipe(mocha());
 });
 
+gulp.task("test:unit:watch", function(done) {
+    gulp.watch(["test/unit/**/*.js", "src/**/*.js"], ["test:unit"]);
+    done();
+});
+
 gulp.task("test:integration", function(done) {
     karma.start({
         configFile: __dirname + "/karma.conf.js"
@@ -133,19 +138,26 @@ gulp.task("connect", function() {
 // MAIN TASKS
 //
 
-gulp.task("build", function(done) {
+gulp.task("dist", function(done) {
     runSequence(
         "clean",
         "test",
         "copy",
         "webpack",
+    done);
+});
+
+gulp.task("build", function(done) {
+    runSequence(
+        "dist",
         "test:build",
     done);
 });
 
 gulp.task("default", function(done) {
     runSequence(
-        "build",
+        "dist",
+        "test:unit:watch",
         "test:integration:watch",
         "watch:src",
         "webpack-dev-server",
