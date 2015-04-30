@@ -1,3 +1,5 @@
+// Adapted from: https://github.com/h5bp/html5-boilerplate/blob/master/test/file_existence.js
+// Adapted parts: Copyright (c) HTML5 Boilerplate
 "use strict";
 
 var assert = require("assert");
